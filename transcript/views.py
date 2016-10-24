@@ -1,6 +1,9 @@
+import os
+
 from rest_framework import views, parsers
 from rest_framework import viewsets, mixins, permissions
 from rest_framework.response import Response
+from django.conf import settings
 
 from models import Document, Line, Extract, ExtractLines
 from serializers import (DocumentSerializer, LineSerializer, ExtractSerializer,
@@ -54,7 +57,7 @@ class TranscriptUploader(views.APIView):
         file_obj = request.data['file']
         user = request.user
 
-        with open(filename, 'wb+') as f:
+        with open(os.path.join(settings.TEMP_DIR, filename), 'wb+') as f:
             for chunk in file_obj.chunks():
                 f.write(chunk)
 

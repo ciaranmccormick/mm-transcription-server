@@ -3,9 +3,6 @@ from datetime import datetime
 from models import Document, Line
 from os.path import basename
 
-FILENAME=("/Users/ciaran/Code/transcript_process/data/02.08_Healthneg_-_"
-          "LON1CD__Tally_Transcript.docx")
-
 
 def get_typist(typist_str):
     return typist_str.replace("\t", "").split(":")[1]
@@ -56,6 +53,3 @@ def create_document(user, filename):
                 line_num += 1
 
     return document
-
-if __name__ == '__main__':
-    create_document(FILENAME)
