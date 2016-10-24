@@ -92,3 +92,6 @@ ENV/
 
 .idea
 *.sqlite3
+transcript/prod_settings.py
+transcript/settings.py
+
