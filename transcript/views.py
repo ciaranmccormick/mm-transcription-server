@@ -56,11 +56,12 @@ class TranscriptUploader(views.APIView):
     def put(self, request, filename, format=None):
         file_obj = request.data['file']
         user = request.user
+        file_uri = os.path.join(settings.TEMP_DIR, filename)
 
-        with open(os.path.join(settings.TEMP_DIR, filename), 'wb+') as f:
+        with open(file_uri, 'wb+') as f:
             for chunk in file_obj.chunks():
                 f.write(chunk)
 
-        doc = create_document(user, filename)
+        doc = create_document(user, file_uri)
         serializer = SimpleDocumentSerializer(doc)
         return Response(serializer.data)
