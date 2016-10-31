@@ -176,7 +176,7 @@ class TranscriptUploader(views.APIView):
         user = request.user
         file_uri = os.path.join(settings.TEMP_DIR, filename)
 
-        with open(file_uri, 'wb+') as f:
+        with open(file_uri, 'w') as f:
             for chunk in file_obj.chunks():
                 f.write(chunk)
 
