@@ -22,6 +22,7 @@ from serializers import (DocumentSerializer, LineSerializer, ExtractSerializer,
 class IAttrViewSet(viewsets.ModelViewSet):
     queryset = IAttr.objects.all()
     serializer_class = WriteIAttrSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
 
 def create_i_attr():
@@ -75,46 +76,55 @@ def create_i_attr():
 class IAttrRefViewSet(viewsets.ModelViewSet):
     queryset = IAttrRef.objects.all()
     serializer_class = IAttrRefSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
 
 class PlaceLocationViewSet(viewsets.ModelViewSet):
     queryset = PlaceLocation.objects.all()
     serializer_class = PlaceLocationSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
 
 class PlaceNormViewSet(viewsets.ModelViewSet):
     queryset = PlaceNorm.objects.all()
     serializer_class = PlaceNormSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
 
 class InformationFlowViewSet(viewsets.ModelViewSet):
     queryset = InformationFlow.objects.all()
     serializer_class = InformationFlowSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
 
 class RelationshipViewSet(viewsets.ModelViewSet):
     queryset = RoleRelationship.objects.all()
     serializer_class = RelationshipSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
 
 class ExpectationViewSet(viewsets.ModelViewSet):
     queryset = RoleExpectation.objects.all()
     serializer_class = ExpectationSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
 
 class IPurposeViewSet(viewsets.ModelViewSet):
     queryset = Purpose.objects.all()
     serializer_class = IPurposeSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
 
 class IModeViewSet(viewsets.ModelViewSet):
     queryset = IMode.objects.all()
     serializer_class = IModeSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
 
 class ITypeViewSet(viewsets.ModelViewSet):
     queryset = IType.objects.all()
     serializer_class = ITypeSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
 
 class DocumentViewSet(viewsets.GenericViewSet,
