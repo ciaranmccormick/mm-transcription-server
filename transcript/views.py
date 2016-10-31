@@ -174,7 +174,7 @@ class TranscriptUploader(views.APIView):
     def put(self, request, filename, format=None):
         file_obj = request.data['file']
         user = request.user
-        file_uri = os.path.join(settings.TEMP_DIR, "tempfile.docx")
+        file_uri = os.path.join(settings.TEMP_DIR, filename)
 
         with open(file_uri, 'wb+') as f:
             for chunk in file_obj.chunks():
