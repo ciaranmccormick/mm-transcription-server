@@ -26,6 +26,29 @@ router.register("line", views.LineViewSet, base_name='line')
 router.register("extract", views.ExtractViewSet, base_name='extract')
 router.register("extract-lines", views.ExtractLinesViewSet,
                 base_name='extract-lines')
+router.register("read-extract", views.ReadOnlyExtractViewSet,
+                base_name='read-extract')
+router.register("i-type", views.ITypeViewSet,
+                base_name='i-type')
+router.register("i-mode", views.IModeViewSet,
+                base_name='i-mode')
+router.register("info-flow", views.InformationFlowViewSet,
+                base_name='info-flow')
+router.register("role-relationship", views.RelationshipViewSet,
+                base_name='role-relationship')
+router.register("role-expectation", views.ExpectationViewSet,
+                base_name='role-expectation')
+router.register("place-location", views.PlaceLocationViewSet,
+                base_name='place-location')
+router.register("place-norm", views.PlaceNormViewSet,
+                base_name='place-norm')
+router.register("i-attr-ref", views.IAttrRefViewSet,
+                base_name='i-attr-ref')
+router.register("i-attr", views.IAttrViewSet,
+                base_name='i-attr')
+router.register("i-purpose", views.IPurposeViewSet,
+                base_name='i-purpose')
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
