@@ -9,18 +9,33 @@ def get_typist(typist_str):
 
 
 def get_date(date_str):
-    dt_str = date_str.replace('\t', '').split(":")[1]
-    d = datetime.strptime(dt_str, "%d/%m/%Y")
+
+    try:
+        dt_str = date_str.replace('\t', '').split(":")[1]
+        d = datetime.strptime(dt_str, "%d/%m/%Y")
+    except ValueError:
+        d = datetime(1970, 1, 1)
+
     return d.date()
 
 
 def get_mp3_file_name(file_str):
-    return file_str.replace("\t", "").split(":")[1]
+
+    try:
+        filename = file_str.replace("\t", "").split(":")[1]
+    except ValueError:
+        filename = "Unknown"
+
+    return filename
 
 
 def get_duration(duration_str):
-    times = duration_str.split("\t")[1].lstrip().split(":")
-    secs = int(times[0]) * 60 * 60 + int(times[1]) * 60 + 19
+
+    try:
+        times = duration_str.split("\t")[1].lstrip().split(":")
+        secs = int(times[0]) * 60 * 60 + int(times[1]) * 60 + 19
+    except ValueError:
+        secs = 0
     return secs
 
 
