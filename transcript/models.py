@@ -99,13 +99,15 @@ class InformationFlow(models.Model):
     THIRD_PARTY = 'TP'
     FEEDBACK = 'FB'
     ALL = 'AL'
+    NO_FLOW = 'NF'
 
     INFORMATION_FLOW_CHOICES = (
         (SENDER_SUB, 'Sender-Subject'),
         (SENDER_REC, 'Sender-Receiver'),
         (THIRD_PARTY, 'Third-Party'),
         (FEEDBACK, 'Feedback'),
-        (ALL, 'All')
+        (ALL, 'All'),
+        (NO_FLOW, 'No-Flow')
     )
     extract = models.OneToOneField(Extract, related_name='info_flow')
     flow = models.CharField(max_length=2, choices=INFORMATION_FLOW_CHOICES)
