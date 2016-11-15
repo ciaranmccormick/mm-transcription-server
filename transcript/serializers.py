@@ -88,19 +88,6 @@ class ExtractLinesSerializer(serializers.ModelSerializer):
         read_only_fields = ('extract',)
 
 
-# class ReadOnlyExtractLinesSerializer(serializers.ModelSerializer):
-#     line = LineSerializer()
-#
-#     class Meta:
-#         model = ExtractLines
-#         fields = ('line',)
-
-# $ letsencrypt certonly --webroot -w /var/www/example
-# -d example.com -d www.example.com -w /var/www/thing
-# -d thing.is
-# -d m.thing.is
-
-
 class ReadOnlyExtractSerializer(serializers.ModelSerializer):
     extract_lines = ExtractLinesSerializer(many=True)
     i_type = ITypeSerializer()
