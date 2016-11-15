@@ -25,6 +25,7 @@ class Extract(models.Model):
     document = models.ForeignKey(Document, related_name='extracts')
     context = models.CharField(max_length=3)
     completed = models.BooleanField(default=False)
+    flag = models.BooleanField(default=False)
 
 
 class ExtractLines(models.Model):
