@@ -143,6 +143,13 @@ class DocumentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class DocumentExtractSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Document
+        fields = ('id', 'extracts',)
+
+
 class SimpleDocumentSerializer(serializers.ModelSerializer):
     owner = OwnerSerializer(read_only=True)
 

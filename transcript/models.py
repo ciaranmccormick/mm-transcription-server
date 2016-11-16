@@ -26,6 +26,7 @@ class Extract(models.Model):
     context = models.CharField(max_length=3)
     completed = models.BooleanField(default=False)
     flag = models.BooleanField(default=False)
+    tag = models.CharField(max_length=512, blank=True)
 
 
 class ExtractLines(models.Model):

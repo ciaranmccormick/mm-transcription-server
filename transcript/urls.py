@@ -48,6 +48,8 @@ router.register("i-attr", views.IAttrViewSet,
                 base_name='i-attr')
 router.register("i-purpose", views.IPurposeViewSet,
                 base_name='i-purpose')
+router.register("document-extract", views.ExtractIdViewSet,
+                base_name='document-extract')
 
 
 urlpatterns = [

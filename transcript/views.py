@@ -16,7 +16,7 @@ from serializers import (DocumentSerializer, LineSerializer, ExtractSerializer,
                          InformationFlowSerializer, ExpectationSerializer,
                          RelationshipSerializer, PlaceLocationSerializer,
                          PlaceNormSerializer, IAttrRefSerializer,
-                         WriteIAttrSerializer)
+                         WriteIAttrSerializer, DocumentExtractSerializer)
 
 
 class IAttrViewSet(viewsets.ModelViewSet):
@@ -164,6 +164,12 @@ class ReadOnlyExtractViewSet(viewsets.ModelViewSet):
 class ExtractLinesViewSet(viewsets.ModelViewSet):
     queryset = ExtractLines.objects.all()
     serializer_class = ExtractLinesSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+
+class ExtractIdViewSet(viewsets.ModelViewSet):
+    queryset = Document.objects.all()
+    serializer_class = DocumentExtractSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
 
