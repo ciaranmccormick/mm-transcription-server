@@ -104,7 +104,7 @@ class ReadOnlyExtractSerializer(serializers.ModelSerializer):
         model = Extract
         fields = ('id', 'document', 'context', 'extract_lines', 'completed',
                   'i_type', 'i_mode', 'i_purpose', 'info_flow', 'relationships',
-                  'expectations', 'locations', 'norms', 'i_attrs')
+                  'expectations', 'locations', 'norms', 'i_attrs', 'tag')
 
 
 class ExtractSerializer(serializers.ModelSerializer):
