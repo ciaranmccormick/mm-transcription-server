@@ -121,7 +121,10 @@ class ExtractSerializer(serializers.ModelSerializer):
 
         for line_data in lines_data:
             line = line_data.pop('line')
-            line = Line.objects.get(**line)
+            line_num = line.pop('line_num')
+            document = line.pop('document')
+
+            line = Line.objects.get(line_num=line_num, document=document)
             ExtractLines.objects.create(extract=extract, line=line)
 
         return extract
