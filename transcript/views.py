@@ -1,6 +1,7 @@
 import os
 
 from django.conf import settings
+from django.contrib.auth.models import User
 from rest_framework import views, parsers
 from rest_framework import viewsets, mixins, permissions
 from rest_framework.response import Response
@@ -8,7 +9,8 @@ from rest_framework.response import Response
 from document_loader import create_document
 from models import (Document, Line, Extract, ExtractLines, IType, IMode,
                     Purpose, InformationFlow, RoleExpectation, RoleRelationship,
-                    PlaceLocation, PlaceNorm, IAttrRef, IAttr)
+                    PlaceLocation, PlaceNorm, IAttrRef, IAttr,
+                    Recode, RecodeExtract)
 from serializers import (DocumentSerializer, LineSerializer, ExtractSerializer,
                          ExtractLinesSerializer, SimpleDocumentSerializer,
                          ReadOnlyExtractSerializer, ITypeSerializer,
@@ -16,7 +18,17 @@ from serializers import (DocumentSerializer, LineSerializer, ExtractSerializer,
                          InformationFlowSerializer, ExpectationSerializer,
                          RelationshipSerializer, PlaceLocationSerializer,
                          PlaceNormSerializer, IAttrRefSerializer,
-                         WriteIAttrSerializer, DocumentExtractSerializer)
+                         WriteIAttrSerializer, DocumentExtractSerializer,
+                         RecodeSerializer, OwnerSerializer,
+                         RecodeExtractSerializer)
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    serializer_class = OwnerSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        return User.objects.filter(id=self.request.user.id)
 
 
 class IAttrViewSet(viewsets.ModelViewSet):
@@ -189,3 +201,23 @@ class TranscriptUploader(views.APIView):
         doc = create_document(user, file_uri)
         serializer = SimpleDocumentSerializer(doc)
         return Response(serializer.data)
+
+
+class RecodeViwSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = Recode.objects.all()
+    serializer_class = RecodeSerializer
+
+    def create(self, request, *args, **kwargs):
+        user_id = request.user.id
+
+        user = User.objects.get(id=user_id)
+        recode = Recode.objects.create(recoder=user)
+        serializer = RecodeSerializer(recode)
+        return Response(serializer.data)
+
+
+class RecodeExtractViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = RecodeExtract.objects.all()
+    serializer_class = RecodeExtractSerializer

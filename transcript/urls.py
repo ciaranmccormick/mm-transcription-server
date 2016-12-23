@@ -21,6 +21,7 @@ from rest_framework.authtoken import views as drfviews
 
 router = routers.DefaultRouter()
 router.register("documents", views.DocumentViewSet, base_name='documents')
+router.register("users", views.UserViewSet, base_name='user')
 router.register("document", views.RetrieveDocumentViewSet, base_name='document')
 router.register("line", views.LineViewSet, base_name='line')
 router.register("extract", views.ExtractViewSet, base_name='extract')
@@ -50,6 +51,10 @@ router.register("i-purpose", views.IPurposeViewSet,
                 base_name='i-purpose')
 router.register("document-extract", views.ExtractIdViewSet,
                 base_name='document-extract')
+router.register("recodes", views.RecodeViwSet,
+                base_name='recode')
+router.register("recode-extracts", views.RecodeExtractViewSet,
+                base_name='recode-extract')
 
 
 urlpatterns = [
