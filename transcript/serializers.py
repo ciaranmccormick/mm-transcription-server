@@ -2,7 +2,8 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from models import (Document, Line, Extract, ExtractLines, IType, IMode,
                     Purpose, InformationFlow, RoleExpectation, RoleRelationship,
-                    PlaceLocation, PlaceNorm, IAttrRef, IAttr)
+                    PlaceLocation, PlaceNorm, IAttrRef, IAttr, Recode,
+                    RecodeExtract)
 
 
 class IAttrRefSerializer(serializers.ModelSerializer):
@@ -159,3 +160,29 @@ class SimpleDocumentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Document
         fields = ('id', 'date', 'filename', 'owner')
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username')
+
+    def create(self, validated_data):
+        print(validated_data)
+
+
+class RecodeExtractSerializer(serializers.ModelSerializer):
+    extract = ExtractSerializer()
+
+    class Meta:
+        model = RecodeExtract
+        fields = '__all__'
+
+
+class RecodeSerializer(serializers.ModelSerializer):
+    recoder = OwnerSerializer()
+    recodeextract_set = RecodeExtractSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Recode
+        fields = '__all__'
