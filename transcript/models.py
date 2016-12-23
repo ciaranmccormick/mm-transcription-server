@@ -3,7 +3,10 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils import timezone
 from rest_framework.authtoken.models import Token
+import numpy as np
+import numpy.random as nprand
 
 
 class Document(models.Model):
@@ -113,6 +116,40 @@ class InformationFlow(models.Model):
     )
     extract = models.OneToOneField(Extract, related_name='info_flow')
     flow = models.CharField(max_length=2, choices=INFORMATION_FLOW_CHOICES)
+
+
+class Recode(models.Model):
+    recoder = models.ForeignKey(User)
+
+
+class RecodeExtract(models.Model):
+    extract = models.ForeignKey(Extract)
+    recode = models.ForeignKey(Recode)
+    recode_context = models.CharField(max_length=3)
+
+
+def random_extracts(user):
+    queryset = Extract.objects.all()
+    all_extract_count = queryset.count()
+    ten_percent_count = int(np.ceil(all_extract_count * 0.1))
+
+    queryset = queryset.exclude(document__owner=user)
+    user_extract_count = queryset.count()
+
+    assert user_extract_count > ten_percent_count
+
+    rand_list = nprand.randint(user_extract_count, size=ten_percent_count)
+
+    return [queryset[xI] for xI in rand_list]
+
+
+@receiver(post_save, sender=Recode)
+def add_extracts_to_recode(sender, instance=None, created=False, **kwargs):
+    if created:
+        extracts = random_extracts(instance.recoder)
+        for extract in extracts:
+            RecodeExtract.objects.create(extract=extract, recode=instance,
+                                         recode_context="noc")
 
 
 @receiver(post_save, sender=IAttrRef)
