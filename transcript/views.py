@@ -221,3 +221,25 @@ class RecodeExtractViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     queryset = RecodeExtract.objects.all()
     serializer_class = RecodeExtractSerializer
+
+
+class RecodeContextualLinesViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = LineSerializer
+
+    def get_queryset(self):
+        extract_id = self.request.query_params.get('extract_id', None)
+
+        if extract_id is not None:
+            extract = RecodeExtract.objects.get(id=extract_id).extract
+            extract_lines = extract.extract_lines
+            document_id = extract_lines.first().line.document.id
+            start_line = extract_lines.first().line.id - 3
+            end_line = extract_lines.last().line.id + 3
+
+            lines = Line.objects.filter(id__gte=start_line, id__lte=end_line,
+                                        document=document_id)
+
+            return lines
+        else:
+            return Line.objects.all()
