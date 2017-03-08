@@ -3,10 +3,10 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.utils import timezone
 from rest_framework.authtoken.models import Token
 import numpy as np
 import numpy.random as nprand
+import random
 
 
 class Document(models.Model):
@@ -130,17 +130,32 @@ class RecodeExtract(models.Model):
 
 def random_extracts(user):
     queryset = Extract.objects.all()
+
+    # Filter only fake extracts
+    fake_extracts = list(queryset.filter(document__filename='dummy'))
+    # get 10 fake extracts
+    rand_fake_extracts = random.sample(fake_extracts, 10)
+
+    # exclude fake extracts
+    queryset = queryset.exclude(document__filename='dummy')
+
+    # Get total count
     all_extract_count = queryset.count()
+
+    # 10% of count
     ten_percent_count = int(np.ceil(all_extract_count * 0.1))
 
-    queryset = queryset.exclude(document__owner=user)
-    user_extract_count = queryset.count()
+    # exclude the users own extracts
+    real_extracts = list(queryset.exclude(document__owner=user))
+    # select random sample of 10% of real extracts
+    real_extracts_sample = random.sample(real_extracts, ten_percent_count)
 
-    assert user_extract_count > ten_percent_count
+    all_extracts = rand_fake_extracts + real_extracts_sample
 
-    rand_list = nprand.randint(user_extract_count, size=ten_percent_count)
+    # randomly shuffle extracts
+    random.shuffle(all_extracts)
 
-    return [queryset[xI] for xI in rand_list]
+    return all_extracts
 
 
 @receiver(post_save, sender=Recode)
