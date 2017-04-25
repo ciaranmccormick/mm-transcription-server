@@ -57,6 +57,8 @@ router.register("recode-extracts", views.RecodeExtractViewSet,
                 base_name='recode-extract')
 router.register("recode-extracts-context", views.RecodeContextualLinesViewSet,
                 base_name='recode-extract-context')
+router.register("re-recode-extracts", views.ReRecodeExtractViewSet,
+                base_name='re-recode-extract')
 
 
 urlpatterns = [
