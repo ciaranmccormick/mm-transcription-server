@@ -245,7 +245,7 @@ def get_recodes(include_noc=True):
 class ReRecodeExtractViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     queryset = get_re_recodes()
-    serializer_class = RecodeExtractViewSet
+    serializer_class = RecodeExtractSerializer
 
 
 class RecodeContextualLinesViewSet(viewsets.ModelViewSet):
