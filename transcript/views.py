@@ -223,7 +223,7 @@ class RecodeExtractViewSet(viewsets.ModelViewSet):
     serializer_class = RecodeExtractSerializer
 
 
-class ReRecodeExtractViewset(viewsets.ModelViewSet):
+class ReRecodeExtractViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     queryset = get_re_recodes()
     serializer_class = RecodeExtractViewSet
