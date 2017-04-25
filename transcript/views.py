@@ -223,6 +223,25 @@ class RecodeExtractViewSet(viewsets.ModelViewSet):
     serializer_class = RecodeExtractSerializer
 
 
+def get_re_recodes():
+    recodes = get_recodes(include_noc=False)
+    recodes = recodes.exclude(
+        recode_context__regex='n[be]', extract__context__regex='n[be]').exclude(
+        recode_context__regex='p[be]', extract__context__regex='p[be]')
+
+    return recodes
+
+
+def get_recodes(include_noc=True):
+    recodes = RecodeExtract.objects.all()
+    if not include_noc:
+        recodes = recodes.exclude(extract__context='noc')
+    else:
+        pass
+
+    return recodes
+
+
 class ReRecodeExtractViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     queryset = get_re_recodes()
@@ -249,22 +268,3 @@ class RecodeContextualLinesViewSet(viewsets.ModelViewSet):
             return lines
         else:
             return Line.objects.all()
-
-
-def get_re_recodes():
-    recodes = get_recodes(include_noc=False)
-    recodes = recodes.exclude(
-        recode_context__regex='n[be]', extract__context__regex='n[be]').exclude(
-        recode_context__regex='p[be]', extract__context__regex='p[be]')
-
-    return recodes
-
-
-def get_recodes(include_noc=True):
-    recodes = RecodeExtract.objects.all()
-    if not include_noc:
-        recodes = recodes.exclude(extract__context='noc')
-    else:
-        pass
-
-    return recodes
