@@ -179,6 +179,17 @@ class RecodeExtractSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ReRecodeExtractSerializer(serializers.ModelSerializer):
+    extract = ExtractSerializer()
+    recoder = serializers.CharField(source='recode.recoder.username')
+    original_coder = serializers.CharField(source='extract.document.owner.username')
+
+    class Meta:
+        model = RecodeExtract
+        fields = '__all__'
+
+
+
 class RecodeSerializer(serializers.ModelSerializer):
     recoder = OwnerSerializer()
     recodeextract_set = RecodeExtractSerializer(many=True, read_only=True)
