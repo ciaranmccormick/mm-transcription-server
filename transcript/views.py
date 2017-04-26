@@ -20,7 +20,7 @@ from serializers import (DocumentSerializer, LineSerializer, ExtractSerializer,
                          PlaceNormSerializer, IAttrRefSerializer,
                          WriteIAttrSerializer, DocumentExtractSerializer,
                          RecodeSerializer, OwnerSerializer,
-                         RecodeExtractSerializer)
+                         RecodeExtractSerializer, ReRecodeExtractSerializer)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -236,16 +236,22 @@ def get_recodes(include_noc=True):
     recodes = RecodeExtract.objects.all()
     if not include_noc:
         recodes = recodes.exclude(extract__context='noc')
-    else:
-        pass
-
     return recodes
 
 
 class ReRecodeExtractViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     queryset = get_re_recodes()
-    serializer_class = RecodeExtractSerializer
+    serializer_class = ReRecodeExtractSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = get_re_recodes()
+        combined_qs = queryset.filter(
+            recode__recoder=user) | queryset.filter(
+            extract__document__owner=user)
+
+        return combined_qs
 
 
 class RecodeContextualLinesViewSet(viewsets.ModelViewSet):
