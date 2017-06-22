@@ -3,7 +3,7 @@ from rest_framework import serializers
 from models import (Document, Line, Extract, ExtractLines, IType, IMode,
                     Purpose, InformationFlow, RoleExpectation, RoleRelationship,
                     PlaceLocation, PlaceNorm, IAttrRef, IAttr, Recode,
-                    RecodeExtract)
+                    RecodeExtract, ExtractActors)
 
 
 class IAttrRefSerializer(serializers.ModelSerializer):
@@ -188,6 +188,13 @@ class ReRecodeExtractSerializer(serializers.ModelSerializer):
         model = RecodeExtract
         fields = '__all__'
 
+
+class ExtractActorsSerializer(serializers.ModelSerializer):
+    extract = ExtractSerializer()
+
+    class Meta:
+        model = ExtractActors
+        fields = '__all__'
 
 
 class RecodeSerializer(serializers.ModelSerializer):

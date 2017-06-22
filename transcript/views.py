@@ -10,7 +10,7 @@ from document_loader import create_document
 from models import (Document, Line, Extract, ExtractLines, IType, IMode,
                     Purpose, InformationFlow, RoleExpectation, RoleRelationship,
                     PlaceLocation, PlaceNorm, IAttrRef, IAttr,
-                    Recode, RecodeExtract)
+                    Recode, RecodeExtract, ExtractActors)
 from serializers import (DocumentSerializer, LineSerializer, ExtractSerializer,
                          ExtractLinesSerializer, SimpleDocumentSerializer,
                          ReadOnlyExtractSerializer, ITypeSerializer,
@@ -20,7 +20,8 @@ from serializers import (DocumentSerializer, LineSerializer, ExtractSerializer,
                          PlaceNormSerializer, IAttrRefSerializer,
                          WriteIAttrSerializer, DocumentExtractSerializer,
                          RecodeSerializer, OwnerSerializer,
-                         RecodeExtractSerializer, ReRecodeExtractSerializer)
+                         RecodeExtractSerializer, ReRecodeExtractSerializer,
+                         ExtractActorsSerializer)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -221,6 +222,12 @@ class RecodeExtractViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     queryset = RecodeExtract.objects.all()
     serializer_class = RecodeExtractSerializer
+
+
+class ExtractActorsViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = ExtractActors.objects.all()
+    serializer_class = ExtractActorsSerializer
 
 
 def get_re_recodes():
