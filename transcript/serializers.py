@@ -190,7 +190,7 @@ class ReRecodeExtractSerializer(serializers.ModelSerializer):
 
 
 class ExtractActorsSerializer(serializers.ModelSerializer):
-    extract = ExtractSerializer()
+    extract = ExtractSerializer(read_only=True)
 
     class Meta:
         model = ExtractActors

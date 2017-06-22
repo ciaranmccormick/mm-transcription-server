@@ -226,8 +226,16 @@ class RecodeExtractViewSet(viewsets.ModelViewSet):
 
 class ExtractActorsViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
-    queryset = ExtractActors.objects.all()
     serializer_class = ExtractActorsSerializer
+
+    def get_queryset(self):
+        queryset = ExtractActors.objects.all()
+        app = self.request.query_params.get('app', None)
+        context = self.request.query_params.get('context', None)
+
+        queryset = queryset.filter(app=app, context=context)
+
+        return queryset
 
 
 def get_re_recodes():
