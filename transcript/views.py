@@ -233,7 +233,10 @@ class ExtractActorsViewSet(viewsets.ModelViewSet):
         app = self.request.query_params.get('app', None)
         context = self.request.query_params.get('context', None)
 
-        queryset = queryset.filter(app=app, context=context)
+        if app is not None:
+            queryset = queryset.filter(app=app)
+        if context is not None:
+            queryset = queryset.filter(context=context)
 
         return queryset
 
