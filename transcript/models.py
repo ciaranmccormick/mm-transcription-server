@@ -41,8 +41,9 @@ class ExtractActors(models.Model):
     extract = models.ForeignKey(Extract)
     app = models.CharField(max_length=256)
     context = models.CharField(max_length=15)
-    actor = models.CharField(max_length=256, default="")
-    conditions = models.CharField(max_length=256, default="")
+    actor = models.CharField(max_length=256, default="", blank=True)
+    conditions = models.CharField(max_length=256, default="", blank=True)
+    data_type = models.CharField(max_length=256, default="", blank=True)
 
 
 class IType(models.Model):
