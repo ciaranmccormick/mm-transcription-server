@@ -277,10 +277,12 @@ class RecodeContextualLinesViewSet(viewsets.ModelViewSet):
     serializer_class = LineSerializer
 
     def get_queryset(self):
+        recode_extract_id = self.request.query_params.get('recode_extract_id',
+                                                          None)
         extract_id = self.request.query_params.get('extract_id', None)
 
-        if extract_id is not None:
-            extract = RecodeExtract.objects.get(id=extract_id).extract
+        if recode_extract_id is not None:
+            extract = RecodeExtract.objects.get(id=recode_extract_id).extract
             extract_lines = extract.extract_lines
             document_id = extract_lines.first().line.document.id
             start_line = extract_lines.first().line.id - 3
@@ -289,6 +291,16 @@ class RecodeContextualLinesViewSet(viewsets.ModelViewSet):
             lines = Line.objects.filter(id__gte=start_line, id__lte=end_line,
                                         document=document_id)
 
+            return lines
+        elif extract_id is not None:
+            extract = Extract.objects.get(id=extract_id)
+            extract_lines = extract.extract_lines
+            document_id = extract_lines.first().line.document.id
+            start_line = extract_lines.first().line.id - 3
+            end_line = extract_lines.last().line.id + 3
+
+            lines = Line.objects.filter(id__gte=start_line, id__lte=end_line,
+                                        document=document_id)
             return lines
         else:
             return Line.objects.all()
